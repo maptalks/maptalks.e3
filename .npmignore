@@ -4,7 +4,7 @@ src/
 test/
 gulpfile.js
 jsdoc.json
-karma.conf.js
+karma.config.js
 .editorconfig
 .eslintrc
 .eslintignore
@@ -12,3 +12,4 @@ karma.conf.js
 .projectile
 API.md
 circle.yml
+yarn*
