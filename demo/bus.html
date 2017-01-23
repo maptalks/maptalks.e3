@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>maptalks.E3layer Demo: Bus lines</title>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+        #map {
+            width : 960px;
+            height: 600px;
+        }
+    </style>
+    <script type="text/javascript" src="https://unpkg.com/echarts/dist/echarts.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/maptalks@<2.0.0/dist/maptalks.min.js"></script>
+    <script type="text/javascript" src="../dist/maptalks.e3.js"></script>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        //Original Example of Echarts 3
+        //http://echarts.baidu.com/demo.html#lines-bmap-effect
+
+        var map = new maptalks.Map("map",{
+            center  : [116.28245, 39.92121],
+            zoom    : 9,
+            baseLayer : new maptalks.TileLayer('tile',{
+                'urlTemplate' : 'http://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}.png',
+                'subdomains'  : ['a','b','c','d','e']
+            })
+        });
+
+        maptalks.Ajax.getJSON('lines-bus.json', function(err, data) {
+            var hStep = 300 / (data.length - 1);
+            var busLines = [].concat.apply([], data.map(function (busLine, idx) {
+                var prevPt;
+                var points = [];
+                for (var i = 0; i < busLine.length; i += 2) {
+                    var pt = [busLine[i], busLine[i + 1]];
+                    if (i > 0) {
+                        pt = [
+                            prevPt[0] + pt[0],
+                            prevPt[1] + pt[1]
+                        ];
+                    }
+                    prevPt = pt;
+
+                    points.push([pt[0] / 1e4, pt[1] / 1e4]);
+                }
+                return {
+                    'coords': points,
+                    'lineStyle': {
+                        'normal': {
+                            'color': echarts.color.modifyHSL('#5A94DF', Math.round(hStep * idx))
+                        }
+                    }
+                };
+            }));
+            var ecOption = {
+                'series': [ {
+                    'type': 'lines',
+                    'polyline': true,
+                    'data': busLines,
+                    'lineStyle': {
+                        'normal': {
+                            'width': 0
+                        }
+                    },
+                    'effect': {
+                        'constantSpeed': 20,
+                        'show': true,
+                        'trailLength': 0.5,
+                        'symbolSize': 1.5
+                    },
+                    'zlevel': 1
+                }]
+            };
+            var e3Layer = new maptalks.E3Layer('e3', ecOption)
+            .addTo(map);
+        });
+    </script>
+</body>
+</html>

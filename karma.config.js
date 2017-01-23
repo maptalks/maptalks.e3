@@ -1,10 +1,12 @@
+const pkg = require('./package.json');
+
 module.exports = {
     basePath : '.',
     frameworks: ['mocha', 'expect', 'expect-maptalks', 'happen'],
     files: [
         'node_modules/echarts/dist/echarts.js',
         'node_modules/maptalks/dist/maptalks.js',
-        'dist/maptalks.e3.js',
+        'dist/' + pkg.name + '.js',
         'test/**/*.js'
     ],
     preprocessors: {
