@@ -25,6 +25,9 @@
         var map = new maptalks.Map("map",{
             center  : [116.28245, 39.92121],
             zoom    : 9,
+            attributionControl : {
+              'content' : '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
+            },
             baseLayer : new maptalks.TileLayer('tile',{
                 'urlTemplate' : 'http://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}.png',
                 'subdomains'  : ['a','b','c','d','e']
