@@ -11,7 +11,7 @@ const options = {
  *
  * Thanks to Echarts Team (https://github.com/ecomfe/echarts)
  *
- * @author Fu Zhen (fuzhen@maptalks.org)
+ * @author fuzhenn (fuzhen@maptalks.org)
  *
  * MIT License
  */
@@ -48,7 +48,7 @@ export class E3Layer extends maptalks.Layer {
     }
 
     /**
-     * Reproduce a E3Layer from layer's JSON.
+     * Reproduce an E3Layer from layer's JSON.
      * @param  {Object} json - layer's JSON
      * @return {maptalks.E3Layer}
      * @static
