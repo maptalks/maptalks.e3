@@ -3,7 +3,7 @@
 [![CircleCI](https://circleci.com/gh/maptalks/maptalks.e3.svg?style=shield)](https://circleci.com/gh/maptalks/maptalks.e3)
 [![NPM Version](https://img.shields.io/npm/v/maptalks.e3.svg)](https://github.com/maptalks/maptalks.e3)
 
-A maptalks Layer to render with great [d3js](https://d3js.org) library.
+A maptalks Layer to render with great [echarts](https://github.com/ecomfe/echarts) library.
 
 ![screenshot]()
 
