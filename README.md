@@ -3,7 +3,7 @@
 [![CircleCI](https://circleci.com/gh/maptalks/maptalks.e3.svg?style=shield)](https://circleci.com/gh/maptalks/maptalks.e3)
 [![NPM Version](https://img.shields.io/npm/v/maptalks.e3.svg)](https://github.com/maptalks/maptalks.e3)
 
-A maptalks Layer to render with great [echarts](https://github.com/ecomfe/echarts) library.
+A maptalks Layer to render with great [echarts 3](https://github.com/ecomfe/echarts) library.
 
 ![screenshot]()
 
@@ -36,12 +36,12 @@ IE 9-11, Chrome, Firefox, other modern and mobile browsers.
 
 ## API Reference
 
-```D3Layer``` is a subclass of [maptalks.Layer](http://docs.maptalks.org/api/maptalks.Layer.html) and inherits all the methods of its parent.
+```E3Layer``` is a subclass of [maptalks.Layer](http://docs.maptalks.org/api/maptalks.Layer.html) and inherits all the methods of its parent.
 
 ### `Constructor`
 
 ```javascript
-new maptalks.e3Layer(id, ecOptions, options)
+new maptalks.E3Layer(id, ecOptions, options)
 ```
 
 * id **String** layer id
