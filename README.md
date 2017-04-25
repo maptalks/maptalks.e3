@@ -31,10 +31,8 @@ IE 9-11, Chrome, Firefox, other modern and mobile browsers.
 
 ## Examples
 
-* [Choropleth of unemployment](https://maptalks.github.io/maptalks.e3/demo/choropleth.html). (based on [original](http://bl.ocks.org/mbostock/4060606))
-* [Choropleth of unemployment with D3 V3](https://maptalks.github.io/maptalks.e3/demo/choropleth-v3.html). (based on [original](http://bl.ocks.org/mbostock/4060606))
-* [Voronoi diagram of airports and flights](https://maptalks.github.io/maptalks.e3/demo/flights.html). (based on [original](http://bl.ocks.org/mbostock/7608400))
-* [Coastal Graph Distance](https://maptalks.github.io/maptalks.e3/demo/coastal.html). (based on [original](http://bl.ocks.org/mbostock/9744818))
+* [Airlines](https://maptalks.github.io/maptalks.e3/demo/fly.html). (based on [original](http://echarts.baidu.com/demo.html#geo-lines))
+* [Bus lines in beijing](https://maptalks.github.io/maptalks.e3/demo/bus.html). (based on [original](http://echarts.baidu.com/demo.html#lines-bmap-effect))
 
 ## API Reference
 
