@@ -1,6 +1,6 @@
 {
   "name": "maptalks.e3",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A plugin to integerate ECharts3 with maptalks.js. ",
   "license": "MIT",
   "repository": {
@@ -10,7 +10,7 @@
   "main": "dist/maptalks.e3.js",
   "scripts": {
     "preversion": "npm test",
-    "version" : "gulp minify && git add -A dist",
+    "version": "gulp minify && git add -A dist",
     "lint": "eslint index.js test/**/*.js",
     "test": "gulp test",
     "pretest": "npm run lint",
