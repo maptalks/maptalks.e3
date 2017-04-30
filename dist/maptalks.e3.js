@@ -1,7 +1,10 @@
 /*!
- * maptalks.e3 v0.1.0
+ * maptalks.e3 v0.2.1
  * LICENSE : MIT
  * (c) 2016-2017 maptalks.org
+ */
+/*!
+ * requires maptalks@^0.23.0 
  */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('maptalks'), require('echarts')) :
@@ -21,18 +24,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var options = {
     'container': 'front',
-    'renderer': 'dom'
+    'renderer': 'dom',
+    'renderOnRotating': true
 };
 
-/**
- * ECharts3 plugin for maptalks.js
- *
- * Thanks to Echarts Team (https://github.com/ecomfe/echarts)
- *
- * @author Fu Zhen (fuzhen@maptalks.org)
- *
- * MIT License
- */
 var E3Layer = function (_maptalks$Layer) {
     _inherits(E3Layer, _maptalks$Layer);
 
@@ -57,12 +52,6 @@ var E3Layer = function (_maptalks$Layer) {
         return this;
     };
 
-    /**
-     * Export the E3Layer's JSON.
-     * @return {Object} layer's JSON
-     */
-
-
     E3Layer.prototype.toJSON = function toJSON() {
         return {
             'type': this.getJSONType(),
@@ -71,16 +60,6 @@ var E3Layer = function (_maptalks$Layer) {
             'options': this.config()
         };
     };
-
-    /**
-     * Reproduce a E3Layer from layer's JSON.
-     * @param  {Object} json - layer's JSON
-     * @return {maptalks.E3Layer}
-     * @static
-     * @private
-     * @function
-     */
-
 
     E3Layer.fromJSON = function fromJSON(json) {
         if (!json || json['type'] !== this.getJSONType()) {
@@ -161,9 +140,8 @@ E3Layer.registerRenderer('dom', function () {
         var series = this.layer._ecOptions.series;
         if (series) {
             for (var i = series.length - 1; i >= 0; i--) {
-                //change coordinateSystem to maptalks
                 series[i]['coordinateSystem'] = 'maptalks';
-                //disable update animations
+
                 series[i]['animation'] = false;
             }
         }
@@ -195,26 +173,25 @@ E3Layer.registerRenderer('dom', function () {
         this._container.style.height = size.height + 'px';
     };
 
-    /**
-     * Coordinate System for echarts 3
-     * based on echarts's bmap plugin
-     * https://github.com/ecomfe/echarts/blob/f383dcc1adb4c7b9e1888bda3fc976561a788020/extension/bmap/BMapCoordSys.js
-     */
-
-
     _class.prototype._getE3CoordinateSystem = function _getE3CoordinateSystem(map) {
         var CoordSystem = function CoordSystem(map) {
             this.map = map;
             this._mapOffset = [0, 0];
         };
 
-        CoordSystem.create = function (ecModel /*, api*/) {
+        CoordSystem.create = function (ecModel) {
             ecModel.eachSeries(function (seriesModel) {
                 if (seriesModel.get('coordinateSystem') === 'maptalks') {
                     seriesModel.coordinateSystem = new CoordSystem(map);
                 }
             });
         };
+
+        CoordSystem.getDimensionsInfo = function () {
+            return ['x', 'y'];
+        };
+
+        CoordSystem.dimensions = ['x', 'y'];
 
         maptalks.Util.extend(CoordSystem.prototype, {
             dimensions: ['x', 'y'],
@@ -252,21 +229,40 @@ E3Layer.registerRenderer('dom', function () {
         return {
             '_zoomstart': this.onZoomStart,
             '_zoomend': this.onZoomEnd,
+            '_movestart': this.onMoveStart,
             '_moveend': this.onMoveEnd,
-            '_resize': this._clearAndRedraw
+            '_moving': this.onMoving,
+            '_resize': this._clearAndRedraw,
+            '_dragrotatestart': this.onDragRotateStart,
+            '_dragrotateend': this.onDragRotateEnd,
+            '_rotate _pitch': this.onRotating
         };
+    };
+
+    _class.prototype.onMoveStart = function onMoveStart() {
+        if (this.getMap().getPitch() && !this.layer.options['renderOnRotating']) {
+            this.hide();
+        }
     };
 
     _class.prototype.onMoveEnd = function onMoveEnd() {
         if (!this.layer.isVisible()) {
             return;
         }
+        if (this.getMap().getPitch() && !this.layer.options['renderOnRotating']) {
+            this.show();
+            this._clearAndRedraw();
+        }
         this._resetContainer();
         this._ec.resize();
     };
 
+    _class.prototype.onMoving = function onMoving() {
+        this._clearAndRedraw();
+    };
+
     _class.prototype._clearAndRedraw = function _clearAndRedraw() {
-        if (!this.layer.isVisible()) {
+        if (this._container && this._container.style.display === 'none') {
             return;
         }
         this._ec.clear();
@@ -287,6 +283,24 @@ E3Layer.registerRenderer('dom', function () {
             return;
         }
         this.show();
+        this._clearAndRedraw();
+    };
+
+    _class.prototype.onDragRotateStart = function onDragRotateStart() {
+        if (!this.layer.options['renderOnRotating']) {
+            this.layer.hide();
+        }
+    };
+
+    _class.prototype.onDragRotateEnd = function onDragRotateEnd() {
+        if (!this.layer.options['renderOnRotating']) {
+            this.layer.show();
+            this._clearAndRedraw();
+        }
+    };
+
+    _class.prototype.onRotating = function onRotating() {
+        this._clearAndRedraw();
     };
 
     return _class;
@@ -295,5 +309,7 @@ E3Layer.registerRenderer('dom', function () {
 exports.E3Layer = E3Layer;
 
 Object.defineProperty(exports, '__esModule', { value: true });
+
+typeof console !== 'undefined' && console.log('maptalks.e3 v0.2.1, requires maptalks@^0.23.0.');
 
 })));

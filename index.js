@@ -3,7 +3,8 @@ import echarts from 'echarts';
 
 const options = {
     'container' : 'front',
-    'renderer' : 'dom'
+    'renderer' : 'dom',
+    'renderOnRotating' : true
 };
 
 /**
@@ -11,7 +12,7 @@ const options = {
  *
  * Thanks to Echarts Team (https://github.com/ecomfe/echarts)
  *
- * @author Fu Zhen (fuzhen@maptalks.org)
+ * @author fuzhenn (fuzhen@maptalks.org)
  *
  * MIT License
  */
@@ -48,7 +49,7 @@ export class E3Layer extends maptalks.Layer {
     }
 
     /**
-     * Reproduce a E3Layer from layer's JSON.
+     * Reproduce an E3Layer from layer's JSON.
      * @param  {Object} json - layer's JSON
      * @return {maptalks.E3Layer}
      * @static
@@ -131,7 +132,7 @@ E3Layer.registerRenderer('dom', class {
         }
         const series = this.layer._ecOptions.series;
         if (series) {
-            for (var i = series.length - 1; i >= 0; i--) {
+            for (let i = series.length - 1; i >= 0; i--) {
                 //change coordinateSystem to maptalks
                 series[i]['coordinateSystem'] = 'maptalks';
                 //disable update animations
@@ -159,7 +160,7 @@ E3Layer.registerRenderer('dom', class {
     }
 
     _resetContainer() {
-        var point = this.getMap().offsetPlatform(),
+        const point = this.getMap().offsetPlatform(),
             size = this.getMap().getSize();
         maptalks.DomUtil.offsetDom(this._container, point.multi(-1));
         this._container.style.width = size.width + 'px';
@@ -172,7 +173,7 @@ E3Layer.registerRenderer('dom', class {
      * https://github.com/ecomfe/echarts/blob/f383dcc1adb4c7b9e1888bda3fc976561a788020/extension/bmap/BMapCoordSys.js
      */
     _getE3CoordinateSystem(map) {
-        var CoordSystem = function (map) {
+        const CoordSystem = function (map) {
             this.map = map;
             this._mapOffset = [0, 0];
         };
@@ -185,23 +186,29 @@ E3Layer.registerRenderer('dom', class {
             });
         };
 
+        CoordSystem.getDimensionsInfo = function () {
+            return ['x', 'y'];
+        };
+
+        CoordSystem.dimensions = ['x', 'y'];
+
         maptalks.Util.extend(CoordSystem.prototype, {
-            dimensions: ['x', 'y'],
+            dimensions : ['x', 'y'],
 
             setMapOffset(mapOffset) {
                 this._mapOffset = mapOffset;
             },
 
             dataToPoint(data) {
-                var coord = new maptalks.Coordinate(data);
-                var px = this.map.coordinateToContainerPoint(coord);
-                var mapOffset = this._mapOffset;
+                const coord = new maptalks.Coordinate(data);
+                const px = this.map.coordinateToContainerPoint(coord);
+                const mapOffset = this._mapOffset;
                 return [px.x - mapOffset[0], px.y - mapOffset[1]];
             },
 
             pointToData(pt) {
-                var mapOffset = this._mapOffset;
-                var data = this.map.containerPointToCoordinate({
+                const mapOffset = this._mapOffset;
+                const data = this.map.containerPointToCoordinate({
                     x: pt[0] + mapOffset[0],
                     y: pt[1] + mapOffset[1]
                 });
@@ -209,7 +216,7 @@ E3Layer.registerRenderer('dom', class {
             },
 
             getViewRect() {
-                var size = this.map.getSize();
+                const size = this.map.getSize();
                 return new echarts.graphic.BoundingRect(0, 0, size.width, size.height);
             },
 
@@ -225,21 +232,40 @@ E3Layer.registerRenderer('dom', class {
         return {
             '_zoomstart' : this.onZoomStart,
             '_zoomend'   : this.onZoomEnd,
+            '_movestart'   : this.onMoveStart,
             '_moveend'   : this.onMoveEnd,
-            '_resize'    : this._clearAndRedraw
+            '_moving'    : this.onMoving,
+            '_resize'    : this._clearAndRedraw,
+            '_dragrotatestart' : this.onDragRotateStart,
+            '_dragrotateend' : this.onDragRotateEnd,
+            '_rotate _pitch' : this.onRotating
         };
+    }
+
+    onMoveStart() {
+        if (this.getMap().getPitch() && !this.layer.options['renderOnRotating']) {
+            this.hide();
+        }
     }
 
     onMoveEnd() {
         if (!this.layer.isVisible()) {
             return;
         }
+        if (this.getMap().getPitch() && !this.layer.options['renderOnRotating']) {
+            this.show();
+            this._clearAndRedraw();
+        }
         this._resetContainer();
         this._ec.resize();
     }
 
+    onMoving() {
+        this._clearAndRedraw();
+    }
+
     _clearAndRedraw() {
-        if (!this.layer.isVisible()) {
+        if (this._container && this._container.style.display === 'none') {
             return;
         }
         this._ec.clear();
@@ -260,5 +286,23 @@ E3Layer.registerRenderer('dom', class {
             return;
         }
         this.show();
+        this._clearAndRedraw();
+    }
+
+    onDragRotateStart() {
+        if (!this.layer.options['renderOnRotating']) {
+            this.layer.hide();
+        }
+    }
+
+    onDragRotateEnd() {
+        if (!this.layer.options['renderOnRotating']) {
+            this.layer.show();
+            this._clearAndRedraw();
+        }
+    }
+
+    onRotating() {
+        this._clearAndRedraw();
     }
 });
