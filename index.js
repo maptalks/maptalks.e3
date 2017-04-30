@@ -3,7 +3,8 @@ import echarts from 'echarts';
 
 const options = {
     'container' : 'front',
-    'renderer' : 'dom'
+    'renderer' : 'dom',
+    'renderOnRotating' : true
 };
 
 /**
@@ -231,21 +232,40 @@ E3Layer.registerRenderer('dom', class {
         return {
             '_zoomstart' : this.onZoomStart,
             '_zoomend'   : this.onZoomEnd,
+            '_movestart'   : this.onMoveStart,
             '_moveend'   : this.onMoveEnd,
-            '_resize'    : this._clearAndRedraw
+            '_moving'    : this.onMoving,
+            '_resize'    : this._clearAndRedraw,
+            '_dragrotatestart' : this.onDragRotateStart,
+            '_dragrotateend' : this.onDragRotateEnd,
+            '_rotate _pitch' : this.onRotating
         };
+    }
+
+    onMoveStart() {
+        if (this.getMap().getPitch() && !this.layer.options['renderOnRotating']) {
+            this.hide();
+        }
     }
 
     onMoveEnd() {
         if (!this.layer.isVisible()) {
             return;
         }
+        if (this.getMap().getPitch() && !this.layer.options['renderOnRotating']) {
+            this.show();
+            this._clearAndRedraw();
+        }
         this._resetContainer();
         this._ec.resize();
     }
 
+    onMoving() {
+        this._clearAndRedraw();
+    }
+
     _clearAndRedraw() {
-        if (!this.layer.isVisible()) {
+        if (this._container && this._container.style.display === 'none') {
             return;
         }
         this._ec.clear();
@@ -266,5 +286,23 @@ E3Layer.registerRenderer('dom', class {
             return;
         }
         this.show();
+        this._clearAndRedraw();
+    }
+
+    onDragRotateStart() {
+        if (!this.layer.options['renderOnRotating']) {
+            this.layer.hide();
+        }
+    }
+
+    onDragRotateEnd() {
+        if (!this.layer.options['renderOnRotating']) {
+            this.layer.show();
+            this._clearAndRedraw();
+        }
+    }
+
+    onRotating() {
+        this._clearAndRedraw();
     }
 });
