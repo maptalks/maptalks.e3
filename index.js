@@ -185,8 +185,14 @@ E3Layer.registerRenderer('dom', class {
             });
         };
 
+        CoordSystem.getDimensionsInfo = function () {
+            return ['x', 'y'];
+        };
+
+        CoordSystem.dimensions = ['x', 'y'];
+
         maptalks.Util.extend(CoordSystem.prototype, {
-            dimensions: ['x', 'y'],
+            dimensions : ['x', 'y'],
 
             setMapOffset(mapOffset) {
                 this._mapOffset = mapOffset;
