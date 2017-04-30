@@ -9,6 +9,8 @@
   },
   "main": "dist/maptalks.e3.js",
   "scripts": {
+    "preversion": "npm test",
+    "version" : "gulp minify && git add -A dist",
     "lint": "eslint index.js test/**/*.js",
     "test": "gulp test",
     "pretest": "npm run lint",
