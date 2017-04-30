@@ -5,7 +5,7 @@
 
 A maptalks Layer to render with great [echarts 3](https://github.com/ecomfe/echarts) library.
 
-![screenshot]()
+![screenshot](https://cloud.githubusercontent.com/assets/13678919/25565572/afd6d500-2dfb-11e7-977c-951727539b5c.jpg)
 
 ## Install
   
