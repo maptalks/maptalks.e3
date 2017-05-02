@@ -7,6 +7,11 @@ A maptalks Layer to render with great [echarts 3](https://github.com/ecomfe/echa
 
 ![screenshot](https://cloud.githubusercontent.com/assets/13678919/25565572/afd6d500-2dfb-11e7-977c-951727539b5c.jpg)
 
+## Examples
+
+* [Airlines](https://maptalks.github.io/maptalks.e3/demo/fly.html). (based on [original](http://echarts.baidu.com/demo.html#geo-lines))
+* [Bus lines in beijing](https://maptalks.github.io/maptalks.e3/demo/bus.html). (based on [original](http://echarts.baidu.com/demo.html#lines-bmap-effect))
+
 ## Install
   
 * Install with npm: ```npm install maptalks.e3```. 
@@ -28,11 +33,6 @@ var e3Layer = new maptalks.E3Layer('e3', ecOptions)
 ## Supported Browsers
 
 IE 9-11, Chrome, Firefox, other modern and mobile browsers.
-
-## Examples
-
-* [Airlines](https://maptalks.github.io/maptalks.e3/demo/fly.html). (based on [original](http://echarts.baidu.com/demo.html#geo-lines))
-* [Bus lines in beijing](https://maptalks.github.io/maptalks.e3/demo/bus.html). (based on [original](http://echarts.baidu.com/demo.html#lines-bmap-effect))
 
 ## API Reference
 
