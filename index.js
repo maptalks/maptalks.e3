@@ -4,7 +4,7 @@ import echarts from 'echarts';
 const options = {
     'container' : 'front',
     'renderer' : 'dom',
-    'renderOnRotating' : true
+    'hideOnZooming' : false
 };
 
 /**
@@ -75,20 +75,39 @@ E3Layer.registerRenderer('dom', class {
     render() {
         if (!this._container) {
             this._createLayerContainer();
+        }
+        if (!this._ec) {
             this._ec = echarts.init(this._container);
             this._prepareECharts();
+            this._ec.setOption(this.layer._ecOptions, false);
+        } else if (this._isVisible()) {
+            this._ec.resize();
         }
-        this._ec.setOption(this.layer._ecOptions, false);
         this.layer.fire('layerload');
+    }
+
+    drawOnInteracting() {
+        if (this._isVisible()) {
+            this._ec.resize();
+        }
+    }
+
+    needToRedraw() {
+        const map = this.getMap();
+        const renderer = map._getRenderer();
+        return map.isInteracting() || renderer && renderer.isStateChanged();
     }
 
     getMap() {
         return this.layer.getMap();
     }
 
+    _isVisible() {
+        return this._container && this._container.style.display === '';
+    }
+
     show() {
         if (this._container) {
-            this._clearAndRedraw();
             this._container.style.display = '';
         }
     }
@@ -148,7 +167,7 @@ E3Layer.registerRenderer('dom', class {
             container.style.zIndex = this._zIndex;
         }
         this._resetContainer();
-        const parentContainer = this.layer.options['container'] === 'front' ? this.getMap()._panels['frontLayer'] : this.getMap()._panels['backLayer'];
+        const parentContainer = this.layer.options['container'] === 'front' ? this.getMap()._panels['frontStatic'] : this.getMap()._panels['backStatic'];
         parentContainer.appendChild(container);
     }
 
@@ -160,9 +179,8 @@ E3Layer.registerRenderer('dom', class {
     }
 
     _resetContainer() {
-        const point = this.getMap().offsetPlatform(),
-            size = this.getMap().getSize();
-        maptalks.DomUtil.offsetDom(this._container, point.multi(-1));
+        const size = this.getMap().getSize();
+        // maptalks.DomUtil.offsetDom(this._container, point.multi(-1));
         this._container.style.width = size.width + 'px';
         this._container.style.height = size.height + 'px';
     }
@@ -232,77 +250,34 @@ E3Layer.registerRenderer('dom', class {
         return {
             '_zoomstart' : this.onZoomStart,
             '_zoomend'   : this.onZoomEnd,
-            '_movestart'   : this.onMoveStart,
-            '_moveend'   : this.onMoveEnd,
-            '_moving'    : this.onMoving,
-            '_resize'    : this._clearAndRedraw,
-            '_dragrotatestart' : this.onDragRotateStart,
-            '_dragrotateend' : this.onDragRotateEnd,
-            '_rotate _pitch' : this.onRotating
+            '_resize'    : this._resetContainer
         };
     }
 
-    onMoveStart() {
-        if (this.getMap().getPitch() && !this.layer.options['renderOnRotating']) {
-            this.hide();
-        }
-    }
-
-    onMoveEnd() {
-        if (!this.layer.isVisible()) {
-            return;
-        }
-        if (this.getMap().getPitch() && !this.layer.options['renderOnRotating']) {
-            this.show();
-            this._clearAndRedraw();
-        }
-        this._resetContainer();
-        this._ec.resize();
-    }
-
-    onMoving() {
-        this._clearAndRedraw();
-    }
 
     _clearAndRedraw() {
         if (this._container && this._container.style.display === 'none') {
             return;
         }
         this._ec.clear();
-        this._resetContainer();
         this._ec.resize();
-        this.render();
+        delete this._registered;
+        this._prepareECharts();
+        this._ec.setOption(this.layer._ecOptions, false);
     }
 
     onZoomStart() {
-        if (!this.layer.isVisible()) {
+        if (!this.layer.options['hideOnZooming']) {
             return;
         }
         this.hide();
     }
 
     onZoomEnd() {
-        if (!this.layer.isVisible()) {
+        if (!this.layer.options['hideOnZooming']) {
             return;
         }
         this.show();
-        this._clearAndRedraw();
-    }
-
-    onDragRotateStart() {
-        if (!this.layer.options['renderOnRotating']) {
-            this.layer.hide();
-        }
-    }
-
-    onDragRotateEnd() {
-        if (!this.layer.options['renderOnRotating']) {
-            this.layer.show();
-            this._clearAndRedraw();
-        }
-    }
-
-    onRotating() {
         this._clearAndRedraw();
     }
 });
