@@ -1,10 +1,10 @@
 /*!
- * maptalks.e3 v0.2.1
+ * maptalks.e3 v0.3.0
  * LICENSE : MIT
  * (c) 2016-2017 maptalks.org
  */
 /*!
- * requires maptalks@^0.23.0 
+ * requires maptalks@^0.25.0 
  */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('maptalks'), require('echarts')) :
@@ -25,7 +25,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var options = {
     'container': 'front',
     'renderer': 'dom',
-    'renderOnRotating': true
+    'hideOnZooming': false
 };
 
 var E3Layer = function (_maptalks$Layer) {
@@ -85,20 +85,39 @@ E3Layer.registerRenderer('dom', function () {
     _class.prototype.render = function render() {
         if (!this._container) {
             this._createLayerContainer();
+        }
+        if (!this._ec) {
             this._ec = echarts.init(this._container);
             this._prepareECharts();
+            this._ec.setOption(this.layer._ecOptions, false);
+        } else if (this._isVisible()) {
+            this._ec.resize();
         }
-        this._ec.setOption(this.layer._ecOptions, false);
         this.layer.fire('layerload');
+    };
+
+    _class.prototype.drawOnInteracting = function drawOnInteracting() {
+        if (this._isVisible()) {
+            this._ec.resize();
+        }
+    };
+
+    _class.prototype.needToRedraw = function needToRedraw() {
+        var map = this.getMap();
+        var renderer = map._getRenderer();
+        return map.isInteracting() || renderer && renderer.isStateChanged();
     };
 
     _class.prototype.getMap = function getMap() {
         return this.layer.getMap();
     };
 
+    _class.prototype._isVisible = function _isVisible() {
+        return this._container && this._container.style.display === '';
+    };
+
     _class.prototype.show = function show() {
         if (this._container) {
-            this._clearAndRedraw();
             this._container.style.display = '';
         }
     };
@@ -154,7 +173,7 @@ E3Layer.registerRenderer('dom', function () {
             container.style.zIndex = this._zIndex;
         }
         this._resetContainer();
-        var parentContainer = this.layer.options['container'] === 'front' ? this.getMap()._panels['frontLayer'] : this.getMap()._panels['backLayer'];
+        var parentContainer = this.layer.options['container'] === 'front' ? this.getMap()._panels['frontStatic'] : this.getMap()._panels['backStatic'];
         parentContainer.appendChild(container);
     };
 
@@ -166,9 +185,8 @@ E3Layer.registerRenderer('dom', function () {
     };
 
     _class.prototype._resetContainer = function _resetContainer() {
-        var point = this.getMap().offsetPlatform(),
-            size = this.getMap().getSize();
-        maptalks.DomUtil.offsetDom(this._container, point.multi(-1));
+        var size = this.getMap().getSize();
+
         this._container.style.width = size.width + 'px';
         this._container.style.height = size.height + 'px';
     };
@@ -229,36 +247,8 @@ E3Layer.registerRenderer('dom', function () {
         return {
             '_zoomstart': this.onZoomStart,
             '_zoomend': this.onZoomEnd,
-            '_movestart': this.onMoveStart,
-            '_moveend': this.onMoveEnd,
-            '_moving': this.onMoving,
-            '_resize': this._clearAndRedraw,
-            '_dragrotatestart': this.onDragRotateStart,
-            '_dragrotateend': this.onDragRotateEnd,
-            '_rotate _pitch': this.onRotating
+            '_resize': this._resetContainer
         };
-    };
-
-    _class.prototype.onMoveStart = function onMoveStart() {
-        if (this.getMap().getPitch() && !this.layer.options['renderOnRotating']) {
-            this.hide();
-        }
-    };
-
-    _class.prototype.onMoveEnd = function onMoveEnd() {
-        if (!this.layer.isVisible()) {
-            return;
-        }
-        if (this.getMap().getPitch() && !this.layer.options['renderOnRotating']) {
-            this.show();
-            this._clearAndRedraw();
-        }
-        this._resetContainer();
-        this._ec.resize();
-    };
-
-    _class.prototype.onMoving = function onMoving() {
-        this._clearAndRedraw();
     };
 
     _class.prototype._clearAndRedraw = function _clearAndRedraw() {
@@ -266,40 +256,23 @@ E3Layer.registerRenderer('dom', function () {
             return;
         }
         this._ec.clear();
-        this._resetContainer();
         this._ec.resize();
-        this.render();
+        this._prepareECharts();
+        this._ec.setOption(this.layer._ecOptions, false);
     };
 
     _class.prototype.onZoomStart = function onZoomStart() {
-        if (!this.layer.isVisible()) {
+        if (!this.layer.options['hideOnZooming']) {
             return;
         }
         this.hide();
     };
 
     _class.prototype.onZoomEnd = function onZoomEnd() {
-        if (!this.layer.isVisible()) {
+        if (!this.layer.options['hideOnZooming']) {
             return;
         }
         this.show();
-        this._clearAndRedraw();
-    };
-
-    _class.prototype.onDragRotateStart = function onDragRotateStart() {
-        if (!this.layer.options['renderOnRotating']) {
-            this.layer.hide();
-        }
-    };
-
-    _class.prototype.onDragRotateEnd = function onDragRotateEnd() {
-        if (!this.layer.options['renderOnRotating']) {
-            this.layer.show();
-            this._clearAndRedraw();
-        }
-    };
-
-    _class.prototype.onRotating = function onRotating() {
         this._clearAndRedraw();
     };
 
@@ -310,6 +283,6 @@ exports.E3Layer = E3Layer;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-typeof console !== 'undefined' && console.log('maptalks.e3 v0.2.1, requires maptalks@^0.23.0.');
+typeof console !== 'undefined' && console.log('maptalks.e3 v0.3.0, requires maptalks@^0.25.0.');
 
 })));
