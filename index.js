@@ -261,7 +261,6 @@ E3Layer.registerRenderer('dom', class {
         }
         this._ec.clear();
         this._ec.resize();
-        delete this._registered;
         this._prepareECharts();
         this._ec.setOption(this.layer._ecOptions, false);
     }
