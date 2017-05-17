@@ -80,7 +80,7 @@
                     'zlevel': 1
                 }]
             };
-            var e3Layer = new maptalks.E3Layer('e3', ecOption)
+            var e3Layer = new maptalks.E3Layer('e3', ecOption, { hideOnZooming : true, hideOnRotating : true, hideOnMoving : true })
             .addTo(map);
         });
     </script>

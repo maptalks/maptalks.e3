@@ -4,7 +4,9 @@ import echarts from 'echarts';
 const options = {
     'container' : 'front',
     'renderer' : 'dom',
-    'hideOnZooming' : false
+    'hideOnZooming' : false,
+    'hideOnMoving' : false,
+    'hideOnRotating' : false
 };
 
 /**
@@ -250,6 +252,10 @@ E3Layer.registerRenderer('dom', class {
         return {
             '_zoomstart' : this.onZoomStart,
             '_zoomend'   : this.onZoomEnd,
+            '_dragrotatestart' : this.onDragRotateStart,
+            '_dragrotateend'   : this.onDragRotateEnd,
+            '_movestart' : this.onMoveStart,
+            '_moveend'   : this.onMoveEnd,
             '_resize'    : this._resetContainer
         };
     }
@@ -274,6 +280,36 @@ E3Layer.registerRenderer('dom', class {
 
     onZoomEnd() {
         if (!this.layer.options['hideOnZooming']) {
+            return;
+        }
+        this.show();
+        this._clearAndRedraw();
+    }
+
+    onDragRotateStart() {
+        if (!this.layer.options['hideOnRotating']) {
+            return;
+        }
+        this.hide();
+    }
+
+    onDragRotateEnd() {
+        if (!this.layer.options['hideOnRotating']) {
+            return;
+        }
+        this.show();
+        this._clearAndRedraw();
+    }
+
+    onMoveStart() {
+        if (!this.layer.options['hideOnMoving']) {
+            return;
+        }
+        this.hide();
+    }
+
+    onMoveEnd() {
+        if (!this.layer.options['hideOnMoving']) {
             return;
         }
         this.show();

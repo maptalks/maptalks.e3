@@ -49,6 +49,9 @@ new maptalks.E3Layer(id, ecOptions, options)
 * options **Object** options
     * renderer **String** renderer of the layer, only 'dom' is supported now. ('dom' by default)
     * container **String** specify the container for layer dom elements: 'front' or 'back' ('front' by default)
+    * hideOnZooming **Boolean** whether hide e3layer on zooming, to improve zooming performance.
+    * hideOnMoving **Boolean** whether hide e3layer on moving, to improve moving performance.
+    * hideOnRotating **Boolean** whether hide e3layer on drag rotating, to improve drag rotating performance.
     * Other options defined in [maptalks.Layer](http://docs.maptalks.org/api/maptalks.Layer.html)
 
 ### `getEChartsOption()`
