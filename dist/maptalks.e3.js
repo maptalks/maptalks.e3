@@ -1,5 +1,5 @@
 /*!
- * maptalks.e3 v0.3.0
+ * maptalks.e3 v0.3.1
  * LICENSE : MIT
  * (c) 2016-2017 maptalks.org
  */
@@ -25,7 +25,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var options = {
     'container': 'front',
     'renderer': 'dom',
-    'hideOnZooming': false
+    'hideOnZooming': false,
+    'hideOnMoving': false,
+    'hideOnRotating': false
 };
 
 var E3Layer = function (_maptalks$Layer) {
@@ -247,6 +249,10 @@ E3Layer.registerRenderer('dom', function () {
         return {
             '_zoomstart': this.onZoomStart,
             '_zoomend': this.onZoomEnd,
+            '_dragrotatestart': this.onDragRotateStart,
+            '_dragrotateend': this.onDragRotateEnd,
+            '_movestart': this.onMoveStart,
+            '_moveend': this.onMoveEnd,
             '_resize': this._resetContainer
         };
     };
@@ -276,6 +282,36 @@ E3Layer.registerRenderer('dom', function () {
         this._clearAndRedraw();
     };
 
+    _class.prototype.onDragRotateStart = function onDragRotateStart() {
+        if (!this.layer.options['hideOnRotating']) {
+            return;
+        }
+        this.hide();
+    };
+
+    _class.prototype.onDragRotateEnd = function onDragRotateEnd() {
+        if (!this.layer.options['hideOnRotating']) {
+            return;
+        }
+        this.show();
+        this._clearAndRedraw();
+    };
+
+    _class.prototype.onMoveStart = function onMoveStart() {
+        if (!this.layer.options['hideOnMoving']) {
+            return;
+        }
+        this.hide();
+    };
+
+    _class.prototype.onMoveEnd = function onMoveEnd() {
+        if (!this.layer.options['hideOnMoving']) {
+            return;
+        }
+        this.show();
+        this._clearAndRedraw();
+    };
+
     return _class;
 }());
 
@@ -283,6 +319,6 @@ exports.E3Layer = E3Layer;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-typeof console !== 'undefined' && console.log('maptalks.e3 v0.3.0, requires maptalks@^0.25.0.');
+typeof console !== 'undefined' && console.log('maptalks.e3 v0.3.1, requires maptalks@^0.25.0.');
 
 })));
