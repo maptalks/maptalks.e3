@@ -59,7 +59,7 @@ export class E3Layer extends maptalks.Layer {
      * @function
      */
     static fromJSON(json) {
-        if (!json || json['type'] !== this.getJSONType()) { return null; }
+        if (!json || json['type'] !== 'E3Layer') { return null; }
         return new E3Layer(json['id'], json['ecOptions'], json['options']);
     }
 }
