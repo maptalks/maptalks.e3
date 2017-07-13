@@ -1,6 +1,6 @@
 # maptalks.e3
 
-[![CircleCI](https://circleci.com/gh/maptalks/maptalks.e3.svg?style=shield)](https://circleci.com/gh/maptalks/maptalks.e3)
+[![CircleCI](https://circleci.com/gh/maptalks/maptalks.e3/tree/master.svg?style=shield)](https://circleci.com/gh/maptalks/maptalks.e3)
 [![NPM Version](https://img.shields.io/npm/v/maptalks.e3.svg)](https://github.com/maptalks/maptalks.e3)
 
 A maptalks Layer to render with great [echarts 3](https://github.com/ecomfe/echarts) library.
