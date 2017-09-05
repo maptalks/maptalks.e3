@@ -6,13 +6,8 @@
 /*!
  * requires maptalks@^0.25.0 
  */
-(function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('maptalks'), require('echarts')) :
-	typeof define === 'function' && define.amd ? define(['exports', 'maptalks', 'echarts'], factory) :
-	(factory((global.maptalks = global.maptalks || {}),global.maptalks,global.echarts));
-}(this, (function (exports,maptalks,echarts) { 'use strict';
-
-echarts = echarts && echarts.hasOwnProperty('default') ? echarts['default'] : echarts;
+import { Coordinate, DomUtil, Layer, Util } from 'maptalks';
+import echarts from 'echarts';
 
 function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
 
@@ -71,7 +66,7 @@ var E3Layer = function (_maptalks$Layer) {
     };
 
     return E3Layer;
-}(maptalks.Layer);
+}(Layer);
 
 E3Layer.mergeOptions(options);
 
@@ -169,7 +164,7 @@ E3Layer.registerRenderer('dom', function () {
     };
 
     _class.prototype._createLayerContainer = function _createLayerContainer() {
-        var container = this._container = maptalks.DomUtil.createEl('div');
+        var container = this._container = DomUtil.createEl('div');
         container.style.cssText = 'position:absolute;left:0px;top:0px;';
         if (this._zIndex) {
             container.style.zIndex = this._zIndex;
@@ -181,7 +176,7 @@ E3Layer.registerRenderer('dom', function () {
 
     _class.prototype._removeLayerContainer = function _removeLayerContainer() {
         if (this._container) {
-            maptalks.DomUtil.removeDomNode(this._container);
+            DomUtil.removeDomNode(this._container);
         }
         delete this._levelContainers;
     };
@@ -213,14 +208,14 @@ E3Layer.registerRenderer('dom', function () {
 
         CoordSystem.dimensions = ['x', 'y'];
 
-        maptalks.Util.extend(CoordSystem.prototype, {
+        Util.extend(CoordSystem.prototype, {
             dimensions: ['x', 'y'],
 
             setMapOffset: function setMapOffset(mapOffset) {
                 this._mapOffset = mapOffset;
             },
             dataToPoint: function dataToPoint(data) {
-                var coord = new maptalks.Coordinate(data);
+                var coord = new Coordinate(data);
                 var px = this.map.coordinateToContainerPoint(coord);
                 var mapOffset = this._mapOffset;
                 return [px.x - mapOffset[0], px.y - mapOffset[1]];
@@ -315,10 +310,6 @@ E3Layer.registerRenderer('dom', function () {
     return _class;
 }());
 
-exports.E3Layer = E3Layer;
-
-Object.defineProperty(exports, '__esModule', { value: true });
+export { E3Layer };
 
 typeof console !== 'undefined' && console.log('maptalks.e3 v0.4.0, requires maptalks@^0.25.0.');
-
-})));
