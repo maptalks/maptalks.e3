@@ -8,6 +8,8 @@
     "url": "https://github.com/maptalks/maptalks.e3.js.git"
   },
   "main": "dist/maptalks.e3.js",
+  "module": "dist/maptalks.e3.es.js",
+  "jsnext:main": "dist/maptalks.e3.es.js",
   "scripts": {
     "preversion": "npm test",
     "version": "gulp minify && git add -A dist",
