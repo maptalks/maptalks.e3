@@ -1,5 +1,5 @@
 import * as maptalks from 'maptalks';
-import echarts from 'echarts';
+import * as echarts from 'echarts';
 
 const options = {
     'container' : 'front',
