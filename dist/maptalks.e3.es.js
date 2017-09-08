@@ -1,5 +1,5 @@
 /*!
- * maptalks.e3 v0.4.1
+ * maptalks.e3 v0.4.2
  * LICENSE : MIT
  * (c) 2016-2017 maptalks.org
  */
@@ -312,4 +312,4 @@ E3Layer.registerRenderer('dom', function () {
 
 export { E3Layer };
 
-typeof console !== 'undefined' && console.log('maptalks.e3 v0.4.1, requires maptalks@^0.25.0.');
+typeof console !== 'undefined' && console.log('maptalks.e3 v0.4.2, requires maptalks@^0.25.0.');
