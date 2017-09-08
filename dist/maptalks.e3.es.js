@@ -1,5 +1,5 @@
 /*!
- * maptalks.e3 v0.4.0
+ * maptalks.e3 v0.4.1
  * LICENSE : MIT
  * (c) 2016-2017 maptalks.org
  */
@@ -7,7 +7,7 @@
  * requires maptalks@^0.25.0 
  */
 import { Coordinate, DomUtil, Layer, Util } from 'maptalks';
-import echarts from 'echarts';
+import { graphic, init, matrix, registerCoordinateSystem } from 'echarts';
 
 function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
 
@@ -84,7 +84,7 @@ E3Layer.registerRenderer('dom', function () {
             this._createLayerContainer();
         }
         if (!this._ec) {
-            this._ec = echarts.init(this._container);
+            this._ec = init(this._container);
             this._prepareECharts();
             this._ec.setOption(this.layer._ecOptions, false);
         } else if (this._isVisible()) {
@@ -150,7 +150,7 @@ E3Layer.registerRenderer('dom', function () {
 
     _class.prototype._prepareECharts = function _prepareECharts() {
         if (!this._registered) {
-            echarts.registerCoordinateSystem('maptalks', this._getE3CoordinateSystem(this.getMap()));
+            registerCoordinateSystem('maptalks', this._getE3CoordinateSystem(this.getMap()));
             this._registered = true;
         }
         var series = this.layer._ecOptions.series;
@@ -230,10 +230,10 @@ E3Layer.registerRenderer('dom', function () {
             },
             getViewRect: function getViewRect() {
                 var size = this.map.getSize();
-                return new echarts.graphic.BoundingRect(0, 0, size.width, size.height);
+                return new graphic.BoundingRect(0, 0, size.width, size.height);
             },
             getRoamTransform: function getRoamTransform() {
-                return echarts.matrix.create();
+                return matrix.create();
             }
         });
 
@@ -312,4 +312,4 @@ E3Layer.registerRenderer('dom', function () {
 
 export { E3Layer };
 
-typeof console !== 'undefined' && console.log('maptalks.e3 v0.4.0, requires maptalks@^0.25.0.');
+typeof console !== 'undefined' && console.log('maptalks.e3 v0.4.1, requires maptalks@^0.25.0.');

@@ -1,5 +1,5 @@
 /*!
- * maptalks.e3 v0.4.0
+ * maptalks.e3 v0.4.1
  * LICENSE : MIT
  * (c) 2016-2017 maptalks.org
  */
@@ -11,8 +11,6 @@
 	typeof define === 'function' && define.amd ? define(['exports', 'maptalks', 'echarts'], factory) :
 	(factory((global.maptalks = global.maptalks || {}),global.maptalks,global.echarts));
 }(this, (function (exports,maptalks,echarts) { 'use strict';
-
-echarts = echarts && echarts.hasOwnProperty('default') ? echarts['default'] : echarts;
 
 function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
 
@@ -319,6 +317,6 @@ exports.E3Layer = E3Layer;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-typeof console !== 'undefined' && console.log('maptalks.e3 v0.4.0, requires maptalks@^0.25.0.');
+typeof console !== 'undefined' && console.log('maptalks.e3 v0.4.1, requires maptalks@^0.25.0.');
 
 })));
