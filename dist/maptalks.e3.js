@@ -1,5 +1,5 @@
 /*!
- * maptalks.e3 v0.4.3
+ * maptalks.e3 v0.4.4
  * LICENSE : MIT
  * (c) 2016-2017 maptalks.org
  */
@@ -125,7 +125,6 @@ E3Layer.registerRenderer('dom', function () {
     _class.prototype.hide = function hide() {
         if (this._container) {
             this._container.style.display = 'none';
-            this.clear();
         }
     };
 
@@ -317,6 +316,6 @@ exports.E3Layer = E3Layer;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-typeof console !== 'undefined' && console.log('maptalks.e3 v0.4.3, requires maptalks@^0.25.0.');
+typeof console !== 'undefined' && console.log('maptalks.e3 v0.4.4, requires maptalks@^0.25.0.');
 
 })));
