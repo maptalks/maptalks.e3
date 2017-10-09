@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>maptalks.E3layer Demo: Bus lines</title>
-    <link type="text/css" rel="stylesheet" href="https://unpkg.com/maptalks@<2.0.0/dist/maptalks.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
     <style type="text/css">
         body {
             margin: 0;
@@ -13,8 +13,8 @@
             height: 600px;
         }
     </style>
-    <script type="text/javascript" src="https://unpkg.com/echarts/dist/echarts.min.js"></script>
-    <script type="text/javascript" src="https://unpkg.com/maptalks@<2.0.0/dist/maptalks.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
     <script type="text/javascript" src="../dist/maptalks.e3.js"></script>
 </head>
 <body>
@@ -30,8 +30,8 @@
               'content' : '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
             },
             baseLayer : new maptalks.TileLayer('tile',{
-                'urlTemplate' : 'http://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}.png',
-                'subdomains'  : ['a','b','c','d','e']
+                'urlTemplate' : 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
+                'subdomains': '[\'a\',\'b\',\'c\',\'d\']'
             })
         });
 
