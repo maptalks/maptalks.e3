@@ -117,7 +117,6 @@ E3Layer.registerRenderer('dom', class {
     hide() {
         if (this._container) {
             this._container.style.display = 'none';
-            this.clear();
         }
     }
 
