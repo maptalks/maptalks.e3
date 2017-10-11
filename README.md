@@ -36,7 +36,7 @@ IE 9-11, Chrome, Firefox, other modern and mobile browsers.
 
 ## API Reference
 
-```E3Layer``` is a subclass of [maptalks.Layer](https://maptalks.github.io/docs/api/Layer.html) and inherits all the methods of its parent.
+```E3Layer``` is a subclass of [maptalks.Layer](https://maptalks.github.io/maptalks.js/api/0.x/Layer.html) and inherits all the methods of its parent.
 
 ### `Constructor`
 
@@ -52,7 +52,7 @@ new maptalks.E3Layer(id, ecOptions, options)
     * hideOnZooming **Boolean** whether hide e3layer on zooming, to improve zooming performance.
     * hideOnMoving **Boolean** whether hide e3layer on moving, to improve moving performance.
     * hideOnRotating **Boolean** whether hide e3layer on drag rotating, to improve drag rotating performance.
-    * Other options defined in [maptalks.Layer](https://maptalks.github.io/docs/api/Layer.html)
+    * Other options defined in [maptalks.Layer](https://maptalks.github.io/maptalks.js/api/0.x/Layer.html)
 
 ### `getEChartsOption()`
 
