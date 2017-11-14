@@ -145,8 +145,9 @@ E3Layer.registerRenderer('dom', class {
 
     _prepareECharts() {
         if (!this._registered) {
+            this._registerCoordinateSystemName = 'maptalks' + Math.random();
             echarts.registerCoordinateSystem(
-                'maptalks', this._getE3CoordinateSystem(this.getMap())
+                this._registerCoordinateSystemName, this._getE3CoordinateSystem(this.getMap())
             );
             this._registered = true;
         }
@@ -154,7 +155,7 @@ E3Layer.registerRenderer('dom', class {
         if (series) {
             for (let i = series.length - 1; i >= 0; i--) {
                 //change coordinateSystem to maptalks
-                series[i]['coordinateSystem'] = 'maptalks';
+                series[i]['coordinateSystem'] = this._registerCoordinateSystemName;
                 //disable update animations
                 series[i]['animation'] = false;
             }
@@ -199,7 +200,7 @@ E3Layer.registerRenderer('dom', class {
 
         CoordSystem.create = function (ecModel/*, api*/) {
             ecModel.eachSeries(function (seriesModel) {
-                if (seriesModel.get('coordinateSystem') === 'maptalks') {
+                if (seriesModel.get('coordinateSystem') === this._registerCoordinateSystemName) {
                     seriesModel.coordinateSystem = new CoordSystem(map);
                 }
             });
