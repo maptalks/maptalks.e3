@@ -1,5 +1,5 @@
 /*!
- * maptalks.e3 v0.4.4
+ * maptalks.e3 v0.4.5
  * LICENSE : MIT
  * (c) 2016-2017 maptalks.org
  */
@@ -149,13 +149,14 @@ E3Layer.registerRenderer('dom', function () {
 
     _class.prototype._prepareECharts = function _prepareECharts() {
         if (!this._registered) {
-            registerCoordinateSystem('maptalks', this._getE3CoordinateSystem(this.getMap()));
+            this._coordSystemName = 'maptalks' + Util.GUID();
+            registerCoordinateSystem(this._coordSystemName, this._getE3CoordinateSystem(this.getMap()));
             this._registered = true;
         }
         var series = this.layer._ecOptions.series;
         if (series) {
             for (var i = series.length - 1; i >= 0; i--) {
-                series[i]['coordinateSystem'] = 'maptalks';
+                series[i]['coordinateSystem'] = this._coordSystemName;
 
                 series[i]['animation'] = false;
             }
@@ -192,10 +193,10 @@ E3Layer.registerRenderer('dom', function () {
             this.map = map;
             this._mapOffset = [0, 0];
         };
-
+        var me = this;
         CoordSystem.create = function (ecModel) {
             ecModel.eachSeries(function (seriesModel) {
-                if (seriesModel.get('coordinateSystem') === 'maptalks') {
+                if (seriesModel.get('coordinateSystem') === me._coordSystemName) {
                     seriesModel.coordinateSystem = new CoordSystem(map);
                 }
             });
@@ -311,4 +312,4 @@ E3Layer.registerRenderer('dom', function () {
 
 export { E3Layer };
 
-typeof console !== 'undefined' && console.log('maptalks.e3 v0.4.4, requires maptalks@^0.25.0.');
+typeof console !== 'undefined' && console.log('maptalks.e3 v0.4.5, requires maptalks@^0.25.0.');
