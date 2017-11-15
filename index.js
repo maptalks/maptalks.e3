@@ -145,7 +145,7 @@ E3Layer.registerRenderer('dom', class {
 
     _prepareECharts() {
         if (!this._registered) {
-            this._registerCoordinateSystemName = 'maptalks' + Math.random();
+            this._registerCoordinateSystemName = 'maptalks' + maptalks.Util.GUID();
             echarts.registerCoordinateSystem(
                 this._registerCoordinateSystemName, this._getE3CoordinateSystem(this.getMap())
             );
@@ -197,10 +197,10 @@ E3Layer.registerRenderer('dom', class {
             this.map = map;
             this._mapOffset = [0, 0];
         };
-
+        const me = this;
         CoordSystem.create = function (ecModel/*, api*/) {
             ecModel.eachSeries(function (seriesModel) {
-                if (seriesModel.get('coordinateSystem') === this._registerCoordinateSystemName) {
+                if (seriesModel.get('coordinateSystem') === me._registerCoordinateSystemName) {
                     seriesModel.coordinateSystem = new CoordSystem(map);
                 }
             });
