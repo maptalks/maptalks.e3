@@ -1,7 +1,7 @@
 /*!
- * maptalks.e3 v0.4.6
+ * maptalks.e3 v0.4.5
  * LICENSE : MIT
- * (c) 2016-2018 maptalks.org
+ * (c) 2016-2017 maptalks.org
  */
 /*!
  * requires maptalks@^0.25.0 
@@ -50,13 +50,6 @@ var E3Layer = function (_maptalks$Layer) {
             this._getRenderer()._clearAndRedraw();
         }
         return this;
-    };
-
-    E3Layer.prototype.getEchartsInstance = function getEchartsInstance() {
-        if (this._getRenderer()) {
-            this._EC = this._getRenderer().getEC();
-        }
-        return this._EC || null;
     };
 
     E3Layer.prototype.toJSON = function toJSON() {
@@ -159,13 +152,14 @@ E3Layer.registerRenderer('dom', function () {
 
     _class.prototype._prepareECharts = function _prepareECharts() {
         if (!this._registered) {
-            echarts.registerCoordinateSystem('maptalks', this._getE3CoordinateSystem(this.getMap()));
+            this._coordSystemName = 'maptalks' + maptalks.Util.GUID();
+            echarts.registerCoordinateSystem(this._coordSystemName, this._getE3CoordinateSystem(this.getMap()));
             this._registered = true;
         }
         var series = this.layer._ecOptions.series;
         if (series) {
             for (var i = series.length - 1; i >= 0; i--) {
-                series[i]['coordinateSystem'] = 'maptalks';
+                series[i]['coordinateSystem'] = this._coordSystemName;
 
                 series[i]['animation'] = false;
             }
@@ -202,10 +196,10 @@ E3Layer.registerRenderer('dom', function () {
             this.map = map;
             this._mapOffset = [0, 0];
         };
-
+        var me = this;
         CoordSystem.create = function (ecModel) {
             ecModel.eachSeries(function (seriesModel) {
-                if (seriesModel.get('coordinateSystem') === 'maptalks') {
+                if (seriesModel.get('coordinateSystem') === me._coordSystemName) {
                     seriesModel.coordinateSystem = new CoordSystem(map);
                 }
             });
@@ -259,10 +253,6 @@ E3Layer.registerRenderer('dom', function () {
             '_moveend': this.onMoveEnd,
             '_resize': this._resetContainer
         };
-    };
-
-    _class.prototype.getEC = function getEC() {
-        return this._ec;
     };
 
     _class.prototype._clearAndRedraw = function _clearAndRedraw() {
@@ -327,6 +317,6 @@ exports.E3Layer = E3Layer;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-typeof console !== 'undefined' && console.log('maptalks.e3 v0.4.6, requires maptalks@^0.25.0.');
+typeof console !== 'undefined' && console.log('maptalks.e3 v0.4.5, requires maptalks@^0.25.0.');
 
 })));
