@@ -1,7 +1,7 @@
 /*!
- * maptalks.e3 v0.4.4
+ * maptalks.e3 v0.4.6
  * LICENSE : MIT
- * (c) 2016-2017 maptalks.org
+ * (c) 2016-2018 maptalks.org
  */
 /*!
  * requires maptalks@^0.25.0 
@@ -50,6 +50,13 @@ var E3Layer = function (_maptalks$Layer) {
             this._getRenderer()._clearAndRedraw();
         }
         return this;
+    };
+
+    E3Layer.prototype.getEchartsInstance = function getEchartsInstance() {
+        if (this._getRenderer()) {
+            this._EC = this._getRenderer().getEC();
+        }
+        return this._EC || null;
     };
 
     E3Layer.prototype.toJSON = function toJSON() {
@@ -254,6 +261,10 @@ E3Layer.registerRenderer('dom', function () {
         };
     };
 
+    _class.prototype.getEC = function getEC() {
+        return this._ec;
+    };
+
     _class.prototype._clearAndRedraw = function _clearAndRedraw() {
         if (this._container && this._container.style.display === 'none') {
             return;
@@ -316,6 +327,6 @@ exports.E3Layer = E3Layer;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-typeof console !== 'undefined' && console.log('maptalks.e3 v0.4.4, requires maptalks@^0.25.0.');
+typeof console !== 'undefined' && console.log('maptalks.e3 v0.4.6, requires maptalks@^0.25.0.');
 
 })));

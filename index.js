@@ -37,6 +37,13 @@ export class E3Layer extends maptalks.Layer {
         return this;
     }
 
+    getEchartsInstance() {
+        if (this._getRenderer()) {
+            this._EC = this._getRenderer().getEC();
+        }
+        return this._EC || null;
+    }
+
     /**
      * Export the E3Layer's JSON.
      * @return {Object} layer's JSON
@@ -259,6 +266,9 @@ E3Layer.registerRenderer('dom', class {
         };
     }
 
+    getEC() {
+        return this._ec;
+    }
 
     _clearAndRedraw() {
         if (this._container && this._container.style.display === 'none') {
