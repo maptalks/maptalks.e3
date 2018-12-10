@@ -37,6 +37,13 @@ export class E3Layer extends maptalks.Layer {
         return this;
     }
 
+    getEChartsInstance() {
+        if (this._getRenderer()) {
+            return this._getRenderer()._ec;
+        }
+        return null;
+    }
+
     /**
      * Export the E3Layer's JSON.
      * @return {Object} layer's JSON

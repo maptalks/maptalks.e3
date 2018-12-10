@@ -68,6 +68,12 @@ set a new echarts option to the layer
 
 **Returns** `this`
 
+### `getEChartsInstance()`
+
+get layer's echarts instance
+
+**Returns** `Object`
+
 ### `toJSON()`
 
 export the E3Layer's JSON.
