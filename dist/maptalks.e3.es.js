@@ -1,7 +1,7 @@
 /*!
- * maptalks.e3 v0.4.5
+ * maptalks.e3 v0.5.0
  * LICENSE : MIT
- * (c) 2016-2017 maptalks.org
+ * (c) 2016-2018 maptalks.org
  */
 /*!
  * requires maptalks@^0.25.0 
@@ -47,6 +47,13 @@ var E3Layer = function (_maptalks$Layer) {
             this._getRenderer()._clearAndRedraw();
         }
         return this;
+    };
+
+    E3Layer.prototype.getEChartsInstance = function getEChartsInstance() {
+        if (this._getRenderer()) {
+            return this._getRenderer()._ec;
+        }
+        return null;
     };
 
     E3Layer.prototype.toJSON = function toJSON() {
@@ -312,4 +319,4 @@ E3Layer.registerRenderer('dom', function () {
 
 export { E3Layer };
 
-typeof console !== 'undefined' && console.log('maptalks.e3 v0.4.5, requires maptalks@^0.25.0.');
+typeof console !== 'undefined' && console.log('maptalks.e3 v0.5.0, requires maptalks@^0.25.0.');
