@@ -1,6 +1,6 @@
 {
   "name": "maptalks.e3",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "A plugin to integerate ECharts3 with maptalks.js. ",
   "license": "MIT",
   "repository": {
