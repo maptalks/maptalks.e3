@@ -1,12 +1,17 @@
 {
-  "presets": [
-    ["es2015", { "loose" : true, "modules" : false }]
-  ],
-  "plugins" : [
-    "transform-proto-to-assign"
-  ],
-  "ignore": [
-    "dist/*.js"
-  ],
-  "comments" : false
+    "presets": [
+        [
+            "@babel/env",
+            {
+                "loose": true,
+                "modules": false
+            }
+        ]
+    ],
+    "plugins": [
+    ],
+    "ignore": [
+        "dist/*.js"
+    ],
+    "comments": false
 }
