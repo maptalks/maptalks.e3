@@ -46,8 +46,7 @@
     "mocha": "^2.4.5"
   },
   "peerDependencies": {
-    "echarts": "^3.4.0",
-    "maptalks": "^0.25.0"
+    "echarts": "^3.4.0"
   },
   "dependencies": {}
 }
