@@ -1,5 +1,5 @@
 /*!
- * maptalks.e3 v0.5.1
+ * maptalks.e3 v0.5.2
  * LICENSE : MIT
  * (c) 2016-2022 maptalks.com
  */

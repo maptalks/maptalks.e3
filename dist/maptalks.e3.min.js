@@ -1,12 +1,12 @@
 /*!
- * maptalks.e3 v0.5.1
+ * maptalks.e3 v0.5.2
  * LICENSE : MIT
  * (c) 2016-2022 maptalks.com
  */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('maptalks'), require('echarts')) :
   typeof define === 'function' && define.amd ? define(['exports', 'maptalks', 'echarts'], factory) :
-  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.maptalks = {}, global.maptalks, global.echarts));
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.maptalks = global.maptalks || {}, global.maptalks, global.echarts));
 })(this, (function (exports, maptalks, echarts) { 'use strict';
 
   function _interopNamespace(e) {
