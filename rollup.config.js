@@ -27,6 +27,7 @@ module.exports = [
                 'sourcemap': false,
                 'format': 'umd',
                 'banner': banner,
+                'extend': true,
                 'name': 'maptalks',
                 globals,
                 'file': pkg.main
@@ -35,6 +36,7 @@ module.exports = [
                 'sourcemap': false,
                 'format': 'umd',
                 'banner': banner,
+                'extend': true,
                 'name': 'maptalks',
                 globals,
                 'file': 'dist/maptalks.e3.min.js'
