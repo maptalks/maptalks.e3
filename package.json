@@ -26,17 +26,16 @@
     "dev": "rollup -w -c rollup.config.js"
   },
   "devDependencies": {
-    "echarts": "^3.4.0",
     "@babel/eslint-parser": "^7.15.0",
     "@babel/preset-env": "^7.15.0",
+    "@rollup/plugin-babel": "^5.3.1",
+    "echarts": "^5.4.2",
     "eslint": "^7.32.0",
     "eslint-plugin-mocha": "^9.0.0",
     "mocha": "^9.0.3",
-    "rollup": "^2.56.2",
-    "@rollup/plugin-babel": "^5.3.1"
+    "rollup": "^2.56.2"
   },
   "peerDependencies": {
-    "echarts": "^3.4.0"
-  },
-  "dependencies": {}
+    "echarts": "^5.4.2"
+  }
 }
