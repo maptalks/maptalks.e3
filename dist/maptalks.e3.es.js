@@ -1,7 +1,7 @@
 /*!
  * maptalks.e3 v0.5.2
  * LICENSE : MIT
- * (c) 2016-2022 maptalks.com
+ * (c) 2016-2023 maptalks.com
  */
 import * as maptalks from 'maptalks';
 import * as echarts from 'echarts';
